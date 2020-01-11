@@ -71,6 +71,4 @@ const mkSound = () => {
 const rmvSound = () => soundArray--;
 
 
-document.querySelector("button").addEventListener("click", () => {
-  addSound()
-});
+document.querySelector("button").addEventListener("click", addSound);
