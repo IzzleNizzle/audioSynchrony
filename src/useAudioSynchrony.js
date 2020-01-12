@@ -1,49 +1,93 @@
-import React, { useState, useEffect } from 'react'
-// Step 1. Download Audio file
+import { useState, useEffect } from 'react'
 import rockets40 from './sounds/rockets40.m4a'
-// import rockets20 from './sounds/rockets20.m4a'
-// const rockets40_ = new Audio(rockets40)
-// const rockets20_ = new Audio(rockets20)
+
 
 export default function useAudioSynchrony() {
 
-  const [queueCount, setQueueCount] = useState(0)
-  const incQueue = () => setQueueCount(oldState => ++oldState)
-  const decQueue = () => setQueueCount(oldState => --oldState)
-
   const [stopped, setstopped] = useState(true)
-  const triggerStopped = () => setstopped(oldState => !oldState)
+  const triggerStopped = b => setstopped(b)
 
-
-  useEffect(() => {
-    console.log('====================================');
-    console.log('loaded');
-    console.log('====================================');
-    stopped && play()
-  }, [queueCount])
-
-  // Create new sound file
-  const mkSound = () => new Audio(rockets40)
-
-  // Play synchronously
-  const play = () => {
-    triggerStopped()
-    console.log('================queueCount====================');
-    console.log(queueCount);
-    console.log('===============queueCount=====================');
-    if (queueCount > 0) {
-      let tmpSound = mkSound()
-      tmpSound.play()
-      tmpSound.onended = () => {
-        if (queueCount > 0) {
-          decQueue();
-        }
-        play();
-      };
-    } else {
-      triggerStopped()
+  const [queueCount, setQueueCount] = useState(0)
+  const incQueue = () => {
+    setSoundArr(prevState => [...prevState, "14"])
+    setQueueCount(oldState => oldState + 1)
+    if (stopped) {
+      triggerStopped(false)
+      play()
     }
-  };
+  }
+  const decQueue =
+    () => {
+      soundArr.length > 0 && setSoundArr(oldState => {
+        return (oldState > 0) ? oldState - 1 : 0
+      })
+    }
+
+  const [soundArr, setSoundArr] = useState([])
+
+  const play = () => {
+    if (soundArr.length > 0) {
+      createAudio().play()
+    } else {
+      triggerStopped(true)
+    }
+  }
+
+  const createAudio = () => {
+    let tmpSound = new Audio(rockets40)
+    // tmpSound.play()
+    tmpSound.onended = () => {
+      console.log('onended');
+      decQueue();
+    };
+    return tmpSound
+  }
+
+  // useEffect(() => {
+  //   console.log("soundArr");
+  //   console.log(soundArr);
+  //   if (soundArr.length > 0) {
+  //     triggerStopped(false)
+  //   }
+  // }, [soundArr])
+
+  // useEffect(() => {
+  //   console.log('==queueCount=useEffect=====');
+  //   console.log(queueCount);
+  //   console.log(stopped);
+  //   console.log('=queueCount=useEffect======');
+  //   console.log(' ');
+
+  //   if (queueCount > 0) {
+  //     if (stopped) {
+  //       triggerStopped(false)
+  // let tmpSound = new Audio(rockets40)
+  // tmpSound.play()
+  // tmpSound.onended = () => {
+  //   console.log('onended');
+
+  //   decQueue();
+
+  //   // triggerStopped(true)
+  // };
+  // }
+  //     // else {
+  //     //   triggerStopped(true)
+  //     // }
+  //   }
+
+  // }, [queueCount])
+
+
+
+  // useEffect(() => {
+  //   console.log('==stopped=useEffect=====');
+  //   console.log(queueCount);
+  //   console.log(stopped);
+  //   console.log('=stopped=useEffect======');
+  //   console.log(' ');
+  //   // play()
+  // }, [stopped])
 
   return incQueue
 }
