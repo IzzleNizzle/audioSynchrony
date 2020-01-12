@@ -1,10 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import useAudioSynchrony from './audioSynchrony';
+import App from './App';
 
-const aud = useAudioSynchrony()
-ReactDOM.render((
-  <button
-    onClick={aud}
-  >Click to start</button>
-), document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
