@@ -8,32 +8,42 @@ import rockets40 from './sounds/rockets40.m4a'
 export default function useAudioSynchrony() {
 
   const [queueCount, setQueueCount] = useState(0)
-  const incQueue = () => setQueueCount(oldState => oldState++)
-  const decQueue = () => setQueueCount(oldState => oldState--)
+  const incQueue = () => setQueueCount(oldState => ++oldState)
+  const decQueue = () => setQueueCount(oldState => --oldState)
+
+  const [stopped, setstopped] = useState(true)
+  const triggerStopped = () => setstopped(oldState => !oldState)
+
 
   useEffect(() => {
     console.log('====================================');
     console.log('loaded');
     console.log('====================================');
-    return () => {
-      // cleanup
-    };
+    stopped && play()
   }, [queueCount])
 
   // Create new sound file
   const mkSound = () => new Audio(rockets40)
 
+  // Play synchronously
   const play = () => {
-    let s = mkSound()
-    s.play()
-    s.onended = () => {
-      console.log('onended');
-
+    triggerStopped()
+    console.log('================queueCount====================');
+    console.log(queueCount);
+    console.log('===============queueCount=====================');
+    if (queueCount > 0) {
+      let tmpSound = mkSound()
+      tmpSound.play()
+      tmpSound.onended = () => {
+        if (queueCount > 0) {
+          decQueue();
+        }
+        play();
+      };
+    } else {
+      triggerStopped()
     }
-    console.log('====================================');
-    console.log('hmm');
-    console.log('====================================');
-  }
+  };
 
-  return play
+  return incQueue
 }
