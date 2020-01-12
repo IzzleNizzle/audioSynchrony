@@ -5,14 +5,14 @@ import rockets40 from './sounds/rockets40.m4a'
 export default function useAudioSynchrony() {
 
   const [stopped, setstopped] = useState(true)
-  const triggerStopped = b => setstopped(b)
 
   const [queueCount, setQueueCount] = useState(0)
+
   const incQueue = () => {
     setSoundArr(prevState => [...prevState, "14"])
     setQueueCount(oldState => oldState + 1)
     if (stopped) {
-      triggerStopped(false)
+      setstopped(false)
       play()
     }
   }
@@ -29,7 +29,7 @@ export default function useAudioSynchrony() {
     if (soundArr.length > 0) {
       createAudio().play()
     } else {
-      triggerStopped(true)
+      setstopped(true)
     }
   }
 
@@ -47,7 +47,7 @@ export default function useAudioSynchrony() {
   //   console.log("soundArr");
   //   console.log(soundArr);
   //   if (soundArr.length > 0) {
-  //     triggerStopped(false)
+  //     setstopped(false)
   //   }
   // }, [soundArr])
 
@@ -60,7 +60,7 @@ export default function useAudioSynchrony() {
 
   //   if (queueCount > 0) {
   //     if (stopped) {
-  //       triggerStopped(false)
+  //       setstopped(false)
   // let tmpSound = new Audio(rockets40)
   // tmpSound.play()
   // tmpSound.onended = () => {
@@ -68,11 +68,11 @@ export default function useAudioSynchrony() {
 
   //   decQueue();
 
-  //   // triggerStopped(true)
+  //   // setstopped(true)
   // };
   // }
   //     // else {
-  //     //   triggerStopped(true)
+  //     //   setstopped(true)
   //     // }
   //   }
 
