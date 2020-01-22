@@ -13,7 +13,7 @@ let stopped = true
 const context = new AudioContext()
 // Fetch the file
 fetch(
-  "https://raw.githubusercontent.com/IzzleNizzle/h3-power-timer/adding-reach/src/sounds/camoSpawned.m4a?token=AFJT5YDZI6AK6YZDOE4KAHC6DVPW4"
+  "./sounds/camoSpawned.m4a"
 )
   // Read it into memory as an arrayBuffer
   .then(response => response.arrayBuffer())
