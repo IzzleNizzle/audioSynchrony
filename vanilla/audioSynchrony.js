@@ -62,5 +62,4 @@ function AudioSynchrony() {
 
 }
 
-// 
 export default AudioSynchrony
