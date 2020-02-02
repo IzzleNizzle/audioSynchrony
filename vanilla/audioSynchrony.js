@@ -2,10 +2,10 @@ const $button = document.querySelector("button");
 const context = new AudioContext();
 
 
-function AudioSynchrony() {
-    this.soundQueue = 0;
-    this.globAudBuferr;
-    this.stopped = true;
+function AudioSynchrony(soundQ = 0, glob = '', stp = true) {
+    this.soundQueue = soundQ;
+    this.globAudBuferr = glob;
+    this.stopped = stp;
 
     const loadSoundFile = () => {
         // Fetch the sound file
@@ -62,5 +62,5 @@ function AudioSynchrony() {
 
 }
 
-let ad = AudioSynchrony()
-$button.addEventListener('click', ad)
+// 
+export default AudioSynchrony
